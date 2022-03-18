@@ -11,12 +11,30 @@ namespace csharp
             List<Item> agedBries = inventory.Items.Where(i => i.Name.Contains("Aged Brie")).ToList();
             List<Item> legendaryItems = inventory.Items.Where(i => i.Name.Contains("Sulfuras")).ToList();
             List<Item> backstagePasses = inventory.Items.Where(i => i.Name.Contains("Backstage passes")).ToList();
-            List<Item> commonItems = inventory.Items.Where(i => !i.Name.Contains("Backstage passes") && !i.Name.Contains("Sulfuras") && !i.Name.Contains("Aged Brie")).ToList();
+            List<Item> conjuredItems = inventory.Items.Where(i => i.Name.Contains("Conjured")).ToList();
+
+            List<Item> commonItems = 
+                inventory.Items
+                .Where(i => !i.Name.Contains("Backstage passes") 
+                            && !i.Name.Contains("Sulfuras") 
+                            && !i.Name.Contains("Aged Brie") 
+                            && !i.Name.Contains("Conjured"))
+                .ToList();
 
             UpdateAgedBries(agedBries);
             UpdateLegendaries(legendaryItems);
             UpdateBackstagePasses(backstagePasses);
+            UpdateConjuredItems(conjuredItems);
             UpdateCommonItems(commonItems);
+        }
+
+        private void UpdateConjuredItems(List<Item> conjured)
+        {
+            foreach(var item in conjured)
+            {
+                item.SellIn--;
+                DecreaseQuality(item, 2);
+            }
         }
 
         private void UpdateCommonItems(List<Item> items)
@@ -83,7 +101,7 @@ namespace csharp
             item.Quality = item.Quality > 50 ? 50 : item.Quality;
         }
 
-        private void DecreaseQuality(Item item)
+        private void DecreaseQuality(Item item, int decreaseBy = 1)
         {
             if(item.Quality == 0)
             {
@@ -92,7 +110,7 @@ namespace csharp
 
             if(item.SellIn >= 0)
             {
-                item.Quality--;
+                item.Quality -= decreaseBy;
             }
             else
             {
