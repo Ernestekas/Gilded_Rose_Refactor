@@ -6,6 +6,11 @@ namespace csharp.Models
     {
         public List<Item> Items { get; set; }
 
+        public Inventory()
+        {
+            LoadDefaultInventory();
+        }
+
         public void LoadDefaultInventory()
         {
             Items = new List<Item>()

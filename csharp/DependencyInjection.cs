@@ -7,6 +7,8 @@ namespace csharp
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
+            services.AddTransient<GildedRose>();
+            services.AddTransient<InventoryService>();
             services.AddTransient<ConsoleService>();
         }
     }

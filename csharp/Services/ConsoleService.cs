@@ -1,30 +1,31 @@
-﻿using csharp.Models;
-using System;
+﻿using System;
 
 namespace csharp.Services
 {
     public class ConsoleService
     {
+        private readonly InventoryService _inventoryService;
+
+        public ConsoleService(InventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+        }
+
         public void Run()
         {
+            var monthlyInventoryReport = _inventoryService.GetMonthItemsReport();
             Console.WriteLine("OMGHAI!");
 
-            Inventory inventory = new Inventory();
-            inventory.LoadDefaultInventory();
-
-            var app = new GildedRose(inventory.Items);
-
-
-            for (var i = 0; i < 31; i++)
+            for (var day = 0; day < monthlyInventoryReport.Count; day++)
             {
-                Console.WriteLine("-------- day " + i + " --------");
+                Console.WriteLine("-------- day " + (day + 1) + " --------");
                 Console.WriteLine("name, sellIn, quality");
-                for (var j = 0; j < inventory.Items.Count; j++)
+
+                foreach(var itemReport in monthlyInventoryReport[day])
                 {
-                    Console.WriteLine(inventory.Items[j]);
+                    Console.WriteLine(itemReport);
                 }
                 Console.WriteLine("");
-                app.UpdateQuality();
             }
 
             Console.ReadKey();
