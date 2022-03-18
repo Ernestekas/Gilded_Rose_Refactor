@@ -1,9 +1,5 @@
 ﻿using csharp.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace csharp.Services
 {
@@ -27,12 +23,11 @@ namespace csharp.Services
                 
                 foreach(var item in inventory.Items)
                 {
-                    string itemReport = item.ToString();
-                    dayItemsReports.Add(itemReport);
+                    dayItemsReports.Add(item.ToString());
                 }
 
                 monthlyReport.Add(dayItemsReports);
-                _gildedRose.UpdateQuality(inventory.Items);
+                _gildedRose.UpdateQuality(inventory);
             }
 
             return monthlyReport;
